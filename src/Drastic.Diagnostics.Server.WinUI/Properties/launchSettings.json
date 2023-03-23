@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Drastic.Diagnostics.Server.WinUI (Unpackaged)": {
+      "commandName": "Project"
+    },
+    "Drastic.Diagnostics.Server.WinUI (Package)": {
+      "commandName": "MsixPackage"
+    }
+  }
+}
