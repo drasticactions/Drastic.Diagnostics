@@ -19,6 +19,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 	  <None Remove="DebugClientWindow.xaml" />
+	  <None Remove="DebugDiagnosticsClientWindow.xaml" />
 	  <None Remove="SerilogViewer.xaml" />
 	</ItemGroup>
 
@@ -73,6 +74,12 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Drastic.Diagnostics.Server\Drastic.Diagnostics.Server.csproj" />
 	  <ProjectReference Include="..\Drastic.Diagnostics\Drastic.Diagnostics.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="DebugDiagnosticsClientWindow.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 
 	<ItemGroup>

@@ -76,7 +76,8 @@ namespace Drastic.Diagnostics.Server.WinUI
              .AddSingleton<IErrorHandlerService>(new WinUIErrorHandlerService(serverLogger))
              .AddSingleton<IAppDispatcher>(new AppDispatcher(dispatcherQueue))
              .AddSingleton<MainViewModel>()
-             .AddTransient<DebugClientViewModel>()
+             .AddTransient<DebugAppClientViewModel>()
+             .AddTransient<DebugDiagnosticsClientViewModel>()
              .BuildServiceProvider());
         }
 

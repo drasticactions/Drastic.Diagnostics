@@ -2,6 +2,8 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
+using Drastic.Diagnostics.Messages;
+using Drastic.Diagnostics.Server.Tools;
 using Drastic.Tempest;
 using Microsoft.Extensions.Logging;
 
@@ -15,7 +17,80 @@ namespace Drastic.Diagnostics.Server
             : base(provider, MessageTypes.Reliable)
         {
             this.logger = logger;
+            this.RegisterMessageHandler<TestRequestMessage>(this.OnTestRequestMessage);
+            this.RegisterMessageHandler<TestResponseMessage>(this.OnTestResponseMessage);
+            this.RegisterMessageHandler<ClientRegistrationMessage>(this.OnClientRegistration);
+            this.RegisterMessageHandler<DiagnosticsRegistrationMessage>(this.OnDiagnosticsRegistration);
+            this.RegisterMessageHandler<AppClientDiscoveryRequestMessage>(this.OnAppClientDiscoveryRequest);
         }
+
+        private void OnAppClientDiscoveryRequest(MessageEventArgs<AppClientDiscoveryRequestMessage> args)
+        {
+            args.Connection.SendAsync(new AppClientDiscoveryResponseMessage() { AppClientIds = this.clientConnections.Select(n => n.Key) });
+        }
+
+        private void OnDiagnosticsRegistration(MessageEventArgs<DiagnosticsRegistrationMessage> args)
+        {
+            var clientMessage = args.Message;
+            if (this.diagnosticsConnections.ContainsKey(clientMessage.Id))
+            {
+                this.logger?.LogWarning($"Diagnostics ID {clientMessage.Id} already registered");
+                return;
+            }
+
+            lock (this.diagnosticsConnections)
+            {
+                this.diagnosticsConnections.Add(clientMessage.Id, args.Connection);
+            }
+
+            this.logger?.LogInformation($"Diagnostics ID {clientMessage.Id} registered");
+        }
+
+        private void OnClientRegistration(MessageEventArgs<ClientRegistrationMessage> args)
+        {
+            var clientMessage = args.Message;
+            if (this.clientConnections.ContainsKey(clientMessage.Id))
+            {
+                this.logger?.LogWarning($"Client ID {clientMessage.Id} already registered");
+                return;
+            }
+
+            lock (this.clientConnections)
+            {
+                this.clientConnections.Add(clientMessage.Id, args.Connection);
+            }
+
+            this.logger?.LogInformation($"Client ID {clientMessage.Id} registered");
+        }
+
+        private void OnTestResponseMessage(MessageEventArgs<TestResponseMessage> args)
+        {
+            this.logger?.LogInformation(args.Message.ToString());
+
+            this.SendToAll(args.Message, args.Connection);
+        }
+
+        private void OnTestRequestMessage(MessageEventArgs<TestRequestMessage> args)
+        {
+            this.logger?.LogInformation(args.Message.ToString());
+
+            this.SendToAll(args.Message, args.Connection);
+        }
+
+        private void SendToAll(DiagnosticMessage message, IConnection? ogSender = default)
+        {
+            lock (this.connections)
+            {
+                var list = this.connections.Where(n => n != ogSender);
+                foreach (var connection in list) {
+                    connection.SendAsync(message);
+                }
+            }
+        }
+
+        private readonly Dictionary<string, IConnection> clientConnections = new Dictionary<string, IConnection>();
+
+        private readonly Dictionary<string, IConnection> diagnosticsConnections = new Dictionary<string, IConnection>();
 
         private readonly List<IConnection> connections = new List<IConnection>();
 
@@ -37,6 +112,24 @@ namespace Drastic.Diagnostics.Server
             lock (this.connections)
             {
                 this.connections.Remove(e.Connection);
+            }
+
+            lock (this.clientConnections)
+            {
+                if (this.clientConnections.TryGetKey(e.Connection, out var connection))
+                {
+                    System.Diagnostics.Debug.Assert(connection != null, "Connection key should not be null");
+                    this.clientConnections.Remove(connection!);
+                }
+            }
+
+            lock (this.diagnosticsConnections)
+            {
+                if (this.diagnosticsConnections.TryGetKey(e.Connection, out var connection))
+                {
+                    System.Diagnostics.Debug.Assert(connection != null, "Connection key should not be null");
+                    this.diagnosticsConnections.Remove(connection!);
+                }
             }
 
             this.logger?.LogInformation($"Disconnect");

@@ -9,6 +9,11 @@ namespace Drastic.Diagnostics.Messages
     public enum DiagnosticsMessageType
         : ushort
     {
-        Ping = 1,
+        TestRequest = 1,
+        TestResponse = 2,
+        ClientRegistration = 3,
+        DiagnosticsRegistration = 4,
+        AppClientDiscoveryRequest = 5,
+        AppClientDiscoveryResponse = 6,
     }
 }

@@ -29,7 +29,7 @@ namespace Drastic.Diagnostics.Server.WinUI
             var manager = WinUIEx.WindowManager.Get(this);
             manager.Backdrop = new WinUIEx.MicaSystemBackdrop();
 
-            this.Width = 1000;
+            this.Width = 1500;
             this.Height = 600;
         }
 
@@ -58,6 +58,12 @@ namespace Drastic.Diagnostics.Server.WinUI
         private void MainWindow_Closed(object sender, WindowEventArgs args)
         {
             Application.Current.Exit();
+        }
+
+        private void DebugDiagnosticsClientMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var clientWindow = new DebugDiagnosticsClientWindow(this.MainViewModel.IPAddress, this.MainViewModel.Port);
+            clientWindow.Activate();
         }
     }
 }

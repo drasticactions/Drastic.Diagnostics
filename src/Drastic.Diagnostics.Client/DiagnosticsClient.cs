@@ -4,31 +4,30 @@
 
 using Drastic.Diagnostics.Messages;
 using Drastic.Tempest;
+using Drastic.Tempest.Providers.Network;
 using Microsoft.Extensions.Logging;
 
 namespace Drastic.Diagnostics.Client
 {
     public class DiagnosticsClient
-        : TempestClient
+        : BaseClient
     {
-        private readonly ILogger? logger;
-
-        public DiagnosticsClient(IClientConnection connection, ILogger? logger = default)
-            : base(connection, MessageTypes.Reliable)
+        public DiagnosticsClient(Protocol protocol, string name = "", ILogger? logger = default)
+            : base(ClientType.Diagnostics, new NetworkClientConnection(protocol), name, logger)
         {
-            this.logger = logger;
             this.Connected += this.DiagnosticsClient_Connected;
-            this.Disconnected += this.DiagnosticsClient_Disconnected;
+            this.RegisterMessageHandler<AppClientDiscoveryResponseMessage>(this.OnAppClientDiscoveryResponse);
         }
 
-        private void DiagnosticsClient_Disconnected(object? sender, ClientDisconnectedEventArgs e)
+        private void OnAppClientDiscoveryResponse(MessageEventArgs<AppClientDiscoveryResponseMessage> args)
         {
-            this.logger?.LogInformation($"Disconnect: {e.Reason}");
+            this.Logger?.LogInformation(args.Message.ToString());
         }
 
         private void DiagnosticsClient_Connected(object? sender, ClientConnectionEventArgs e)
         {
-            this.logger?.LogInformation($"Connect");
+            // Tell the server our ID.
+            this.SendMessageAsync(new DiagnosticsRegistrationMessage());
         }
     }
 }

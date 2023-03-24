@@ -119,6 +119,8 @@ namespace Drastic.Diagnostics.Server.ViewModels
             {
                 this.NetworkInterfaces.Add(item);
             }
+
+            this.SelectedInterface = this.NetworkInterfaces.LastOrDefault();
         }
 
         /// <inheritdoc/>

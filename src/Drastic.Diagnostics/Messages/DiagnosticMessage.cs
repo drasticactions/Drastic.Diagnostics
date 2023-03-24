@@ -12,6 +12,27 @@ namespace Drastic.Diagnostics.Messages
         protected DiagnosticMessage(DiagnosticsMessageType type)
             : base(DiagnosticsProtocol.Instance, (ushort)type)
         {
+            this.Id = "Unknown";
+        }
+
+        public string Id { get; internal set; }
+
+        /// <inheritdoc/>
+        public override void ReadPayload(ISerializationContext context, IValueReader reader)
+        {
+            this.Id = reader.ReadString();
+        }
+
+        /// <inheritdoc/>
+        public override void WritePayload(ISerializationContext context, IValueWriter writer)
+        {
+            writer.WriteString(this.Id);
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return $"{this.Id}: {this.GetType().ToString()}";
         }
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <winex:WindowEx
     xmlns:winex="using:WinUIEx"
-    x:Class="Drastic.Diagnostics.Server.WinUI.DebugClientWindow"
+    x:Class="Drastic.Diagnostics.Server.WinUI.DebugDiagnosticsClientWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Drastic.Diagnostics.Server.WinUI"
@@ -16,8 +16,8 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Margin="5" Text="App Client"/>
-            <Grid Margin="20" Grid.Row="1" ColumnSpacing="10" RowSpacing="5">
+            <TextBlock Margin="5" Text="Diagnostics Client"/>
+            <Grid Grid.Row="1" Margin="20" ColumnSpacing="10" RowSpacing="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -52,6 +52,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Content="Test Request" Command="{x:Bind DebugViewModel.SendTestRequestCommand}"/>
+                <Button Grid.Row="1" Grid.Column="0" Content="Send Device Request" Command="{x:Bind DebugViewModel.AppClientDiscoveryRequestCommand}"/>
             </Grid>
         </Grid>
     </Window.Content>
