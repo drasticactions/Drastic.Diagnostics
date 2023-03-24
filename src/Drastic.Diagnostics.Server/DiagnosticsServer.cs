@@ -58,6 +58,7 @@ namespace Drastic.Diagnostics.Server
             lock (this.clientConnections)
             {
                 this.clientConnections.Add(clientMessage.Id, args.Connection);
+                this.SendToDiagnosticsClients(new AppClientConnectMessage() { AppClientId = clientMessage.Id });
             }
 
             this.logger?.LogInformation($"Client ID {clientMessage.Id} registered");
@@ -75,6 +76,30 @@ namespace Drastic.Diagnostics.Server
             this.logger?.LogInformation(args.Message.ToString());
 
             this.SendToAll(args.Message, args.Connection);
+        }
+
+        private void SendToDiagnosticsClients(DiagnosticMessage message, IConnection? ogSender = default)
+        {
+            lock (this.diagnosticsConnections)
+            {
+                var list = this.diagnosticsConnections.Where(n => n.Value != ogSender);
+                foreach (var connection in list)
+                {
+                    connection.Value.SendAsync(message);
+                }
+            }
+        }
+
+        private void SendToAppClients(DiagnosticMessage message, IConnection? ogSender = default)
+        {
+            lock (this.clientConnections)
+            {
+                var list = this.clientConnections.Where(n => n.Value != ogSender);
+                foreach (var connection in list)
+                {
+                    connection.Value.SendAsync(message);
+                }
+            }
         }
 
         private void SendToAll(DiagnosticMessage message, IConnection? ogSender = default)
@@ -120,6 +145,7 @@ namespace Drastic.Diagnostics.Server
                 {
                     System.Diagnostics.Debug.Assert(connection != null, "Connection key should not be null");
                     this.clientConnections.Remove(connection!);
+                    this.SendToDiagnosticsClients(new AppClientDisconnectMessage() { AppClientId = connection });
                 }
             }
 

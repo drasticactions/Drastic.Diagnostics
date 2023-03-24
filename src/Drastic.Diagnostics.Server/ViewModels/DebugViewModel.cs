@@ -107,7 +107,7 @@ namespace Drastic.Diagnostics.Server.ViewModels
             }
         }
 
-        internal void Client_Disconnected(object? sender, Tempest.ClientDisconnectedEventArgs e)
+        internal virtual void Client_Disconnected(object? sender, Tempest.ClientDisconnectedEventArgs e)
         {
             if (this.client is not null)
             {
@@ -119,7 +119,7 @@ namespace Drastic.Diagnostics.Server.ViewModels
             this.RaiseCanExecuteChanged();
         }
 
-        internal void Client_Connected(object? sender, Tempest.ClientConnectionEventArgs e)
+        internal virtual void Client_Connected(object? sender, Tempest.ClientConnectionEventArgs e)
         {
             this.RaiseCanExecuteChanged();
         }

@@ -4,16 +4,20 @@
 
 using Drastic.Diagnostics.Client;
 using Drastic.Diagnostics.Messages;
+using Drastic.Tempest;
 using Drastic.Tempest.Providers.Network;
 using Drastic.Tools;
 using Drastic.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Collections.ObjectModel;
 
 namespace Drastic.Diagnostics.Server.ViewModels
 {
     public class DebugDiagnosticsClientViewModel : DebugViewModel
     {
+        private string? selectedAppClient;
+
         public DebugDiagnosticsClientViewModel(IServiceProvider services)
            : base(services)
         {
@@ -24,6 +28,21 @@ namespace Drastic.Diagnostics.Server.ViewModels
             }
 
             this.AppClientDiscoveryRequestCommand = new AsyncCommand(this.SendAppClientDiscoveryRequest, () => this.IsConnected, this.Dispatcher, this.ErrorHandler);
+
+            this.SelectedAppClient = this.AppClients.First();
+        }
+
+        public ObservableCollection<string> AppClients { get; } = new ObservableCollection<string>() { "All" };
+
+        public string? SelectedAppClient {
+            get {
+                return this.selectedAppClient;
+            }
+
+            set {
+                this.SetProperty(ref this.selectedAppClient, value);
+                this.RaiseCanExecuteChanged();
+            }
         }
 
         public AsyncCommand AppClientDiscoveryRequestCommand { get; }
@@ -34,7 +53,26 @@ namespace Drastic.Diagnostics.Server.ViewModels
 
             client.Connected += this.Client_Connected;
             client.Disconnected += this.Client_Disconnected;
+            client.RegisterMessageHandler<AppClientConnectMessage>(this.OnAppClientConnect);
+            client.RegisterMessageHandler<AppClientDisconnectMessage>(this.OnAppClientDisconnect);
+            client.RegisterMessageHandler<AppClientDiscoveryResponseMessage>(this.OnAppClientDiscoveryResponse);
             return client;
+        }
+
+        private void OnAppClientDiscoveryResponse(MessageEventArgs<AppClientDiscoveryResponseMessage> args)
+        {
+            this.Dispatcher.Dispatch(() =>
+            {
+                this.AppClients.Clear();
+                this.AppClients.Add("All");
+
+                foreach (var appClient in args.Message.AppClientIds)
+                {
+                    this.AppClients.Add(appClient);
+                }
+
+                this.SelectedAppClient = this.AppClients.First();
+            });
         }
 
         private Task SendAppClientDiscoveryRequest()
@@ -46,6 +84,51 @@ namespace Drastic.Diagnostics.Server.ViewModels
         {
             this.AppClientDiscoveryRequestCommand.RaiseCanExecuteChanged();
             base.RaiseCanExecuteChanged();
+        }
+
+        private void OnAppClientConnect(MessageEventArgs<AppClientConnectMessage> args)
+        {
+            this.Dispatcher.Dispatch(() =>
+            {
+                if (!this.AppClients.Contains(args.Message.AppClientId))
+                {
+                    this.AppClients.Add(args.Message.AppClientId);
+                }
+            });
+        }
+
+        private void OnAppClientDisconnect(MessageEventArgs<AppClientDisconnectMessage> args)
+        {
+            this.Dispatcher.Dispatch(() =>
+            {
+                if (this.AppClients.Contains(args.Message.AppClientId))
+                {
+                    this.AppClients.Remove(args.Message.AppClientId);
+                }
+
+                if (this.SelectedAppClient == args.Message.AppClientId)
+                {
+                    this.SelectedAppClient = this.AppClients.FirstOrDefault();
+                }
+            });
+        }
+
+        internal override void Client_Disconnected(object? sender, ClientDisconnectedEventArgs e)
+        {
+            base.Client_Disconnected(sender, e);
+
+            this.Dispatcher.Dispatch(() =>
+            {
+                this.AppClients.Clear();
+                this.AppClients.Add("All");
+            });
+        }
+
+        internal override void Client_Connected(object? sender, ClientConnectionEventArgs e)
+        {
+            base.Client_Connected(sender, e);
+
+            this.SendAppClientDiscoveryRequest().FireAndForgetSafeAsync();
         }
     }
 }
