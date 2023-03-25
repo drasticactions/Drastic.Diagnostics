@@ -33,6 +33,12 @@ namespace Drastic.Diagnostics.Client.WinUI
                 return true;
             }
 
+            if (view is Window window)
+            {
+                representedView = new WinUIWindowInspectView(window, withSubviews);
+                return true;
+            }
+
             var frameworkElement = view as FrameworkElement;
             if (frameworkElement != null)
             {

@@ -65,5 +65,11 @@ namespace Drastic.Diagnostics.Server.WinUI
             var clientWindow = new DebugDiagnosticsClientWindow(this.MainViewModel.IPAddress, this.MainViewModel.Port);
             clientWindow.Activate();
         }
+
+        private void DebugClientMenuItemTester_Click(object sender, RoutedEventArgs e)
+        {
+            var testerWindow = new DebugAppClientWindow();
+            testerWindow.Activate();
+        }
     }
 }

@@ -6,6 +6,8 @@ using System.Numerics;
 using Drastic.Diagnostics.Representations;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using Windows.UI.Input.Inking;
+using WinPoint = Windows.Foundation.Point;
 
 namespace Drastic.Diagnostics.Client.WinUI.Representations
 {
@@ -39,6 +41,32 @@ namespace Drastic.Diagnostics.Client.WinUI.Representations
                 return new Rectangle(offset.Matrix.OffsetX, offset.Matrix.OffsetY, platformView.ActualWidth, platformView.ActualHeight);
 
             return new Rectangle();
+        }
+
+        internal static Rectangle GetBoundingBox(this FrameworkElement? platformView)
+        {
+            if (platformView == null)
+                return new Rectangle();
+
+            var rootView = platformView.XamlRoot.Content;
+            if (platformView == rootView)
+            {
+                if (rootView is not FrameworkElement el)
+                    return new Rectangle();
+
+                return new Rectangle(0, 0, el.ActualWidth, el.ActualHeight);
+            }
+
+            var topLeft = platformView.TransformToVisual(rootView).TransformPoint(new WinPoint());
+            var topRight = platformView.TransformToVisual(rootView).TransformPoint(new WinPoint(platformView.ActualWidth, 0));
+            var bottomLeft = platformView.TransformToVisual(rootView).TransformPoint(new WinPoint(0, platformView.ActualHeight));
+            var bottomRight = platformView.TransformToVisual(rootView).TransformPoint(new WinPoint(platformView.ActualWidth, platformView.ActualHeight));
+
+            var x1 = new[] { topLeft.X, topRight.X, bottomLeft.X, bottomRight.X }.Min();
+            var x2 = new[] { topLeft.X, topRight.X, bottomLeft.X, bottomRight.X }.Max();
+            var y1 = new[] { topLeft.Y, topRight.Y, bottomLeft.Y, bottomRight.Y }.Min();
+            var y2 = new[] { topLeft.Y, topRight.Y, bottomLeft.Y, bottomRight.Y }.Max();
+            return new Rectangle(x1, y1, x2 - x1, y2 - y1);
         }
     }
 }

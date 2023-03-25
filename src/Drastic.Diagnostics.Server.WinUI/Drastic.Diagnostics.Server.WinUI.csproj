@@ -18,6 +18,7 @@
 		<ApplicationIcon Condition="'$(IsUnpackaged)' == 'true'">AppIcon.ico</ApplicationIcon>
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="DebugAppClientWindow.xaml" />
 	  <None Remove="DebugClientWindow.xaml" />
 	  <None Remove="DebugDiagnosticsClientWindow.xaml" />
 	  <None Remove="SerilogViewer.xaml" />
@@ -76,6 +77,12 @@
 	  <ProjectReference Include="..\Drastic.Diagnostics.Debug\Drastic.Diagnostics.Debug.csproj" />
 	  <ProjectReference Include="..\Drastic.Diagnostics.Server\Drastic.Diagnostics.Server.csproj" />
 	  <ProjectReference Include="..\Drastic.Diagnostics\Drastic.Diagnostics.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="DebugAppClientWindow.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 
 	<ItemGroup>

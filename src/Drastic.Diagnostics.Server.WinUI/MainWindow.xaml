@@ -20,6 +20,7 @@
             </Grid.RowDefinitions>
             <MenuBar>
                 <MenuBarItem Title="Debug">
+                    <MenuFlyoutItem x:Name="DebugClientMenuItemTester" Click="DebugClientMenuItemTester_Click" Text="Open Debug App Client Tester"/>
                     <MenuFlyoutItem x:Name="DebugClientMenuItem" Click="DebugClientMenuItem_Click" Text="Open Debug App Client"/>
                     <MenuFlyoutItem x:Name="DebugDiagnosticsClientMenuItem" Click="DebugDiagnosticsClientMenuItem_Click"  Text="Open Debug Diagnostics Client"/>
                 </MenuBarItem>
