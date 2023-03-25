@@ -1,4 +1,4 @@
-﻿// <copyright file="DebugClientViewModel.cs" company="Drastic Actions">
+﻿// <copyright file="DebugAppClientViewModel.cs" company="Drastic Actions">
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
@@ -9,7 +9,7 @@ using Drastic.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Drastic.Diagnostics.Server.ViewModels
+namespace Drastic.Diagnostics.Debug.ViewModels
 {
     public class DebugAppClientViewModel : DebugViewModel
     {
@@ -25,8 +25,7 @@ namespace Drastic.Diagnostics.Server.ViewModels
 
         public override BaseClient SetupClient()
         {
-            var client = new AppClient(DiagnosticsProtocol.Instance, "DebugApp", this.Logger);
-
+            var client = this.appClientFactory.GenerateAppClient(DiagnosticsProtocol.Instance, "DebugApp", this.Logger);
             client.Connected += this.Client_Connected;
             client.Disconnected += this.Client_Disconnected;
             return client;

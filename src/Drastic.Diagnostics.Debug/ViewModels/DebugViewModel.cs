@@ -1,23 +1,23 @@
-﻿using Drastic.Diagnostics.Client;
+﻿// <copyright file="DebugViewModel.cs" company="Drastic Actions">
+// Copyright (c) Drastic Actions. All rights reserved.
+// </copyright>
+
+using Drastic.Diagnostics.Client;
 using Drastic.Diagnostics.Messages;
 using Drastic.Tempest.Providers.Network;
 using Drastic.Tools;
 using Drastic.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Drastic.Diagnostics.Server.ViewModels
+namespace Drastic.Diagnostics.Debug.ViewModels
 {
     public class DebugViewModel : BaseViewModel
     {
         private string? ipAddress;
         private int? port = 8888;
         internal BaseClient? client;
+        internal IAppClientFactory appClientFactory;
 
         private bool isValidPort => this.port is not null && (this.port > 0 && this.port <= 65535);
 
@@ -26,6 +26,7 @@ namespace Drastic.Diagnostics.Server.ViewModels
         public DebugViewModel(IServiceProvider services)
             : base(services)
         {
+            this.appClientFactory = services.GetRequiredService<IAppClientFactory>();
             this.SendTestRequestCommand = new AsyncCommand(this.SendTestRequestAsync, () => this.IsConnected, this.Dispatcher, this.ErrorHandler);
             this.DisconnectFromServerCommand = new AsyncCommand(this.DisconnectFromServerAsync, () => this.IsConnected, this.Dispatcher, this.ErrorHandler);
             this.ConnectToServerCommand = new AsyncCommand(this.ConnectToServerAsync, () => !this.IsConnected && this.isValidPort && this.isValidIp, this.Dispatcher, this.ErrorHandler);

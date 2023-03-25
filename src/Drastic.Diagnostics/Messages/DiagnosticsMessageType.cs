@@ -16,6 +16,8 @@ namespace Drastic.Diagnostics.Messages
         AppClientDiscoveryRequest = 5,
         AppClientDiscoveryResponse = 6,
         AppClientDisconnect = 7,
-        AppClientConnect = 8
+        AppClientConnect = 8,
+        TestInspectViewRequest = 9,
+        TestInspectViewResponse = 10,
     }
 }

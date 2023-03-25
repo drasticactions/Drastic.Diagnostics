@@ -1,7 +1,8 @@
-﻿// <copyright file="DebugClientViewModel.cs" company="Drastic Actions">
+﻿// <copyright file="DebugDiagnosticsClientViewModel.cs" company="Drastic Actions">
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
+using System.Collections.ObjectModel;
 using Drastic.Diagnostics.Client;
 using Drastic.Diagnostics.Messages;
 using Drastic.Tempest;
@@ -10,9 +11,8 @@ using Drastic.Tools;
 using Drastic.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Collections.ObjectModel;
 
-namespace Drastic.Diagnostics.Server.ViewModels
+namespace Drastic.Diagnostics.Debug.ViewModels
 {
     public class DebugDiagnosticsClientViewModel : DebugViewModel
     {
@@ -27,6 +27,7 @@ namespace Drastic.Diagnostics.Server.ViewModels
                 this.Logger = loggerFactory.CreateLogger("DebugDiagnosticsClient");
             }
 
+            this.TestInspectViewRequestCommand = new AsyncCommand(this.SendTestInspectViewRequestCommand, () => this.IsConnected, this.Dispatcher, this.ErrorHandler);
             this.AppClientDiscoveryRequestCommand = new AsyncCommand(this.SendAppClientDiscoveryRequest, () => this.IsConnected, this.Dispatcher, this.ErrorHandler);
 
             this.SelectedAppClient = this.AppClients.First();
@@ -44,6 +45,8 @@ namespace Drastic.Diagnostics.Server.ViewModels
                 this.RaiseCanExecuteChanged();
             }
         }
+
+        public AsyncCommand TestInspectViewRequestCommand { get; }
 
         public AsyncCommand AppClientDiscoveryRequestCommand { get; }
 
@@ -75,6 +78,11 @@ namespace Drastic.Diagnostics.Server.ViewModels
             });
         }
 
+        private Task SendTestInspectViewRequestCommand()
+        {
+            return this.client?.SendMessageAsync(new TestInspectViewRequest()) ?? Task.CompletedTask;
+        }
+
         private Task SendAppClientDiscoveryRequest()
         {
             return this.client?.SendMessageAsync(new AppClientDiscoveryRequestMessage()) ?? Task.CompletedTask;
@@ -83,6 +91,7 @@ namespace Drastic.Diagnostics.Server.ViewModels
         public override void RaiseCanExecuteChanged()
         {
             this.AppClientDiscoveryRequestCommand.RaiseCanExecuteChanged();
+            this.TestInspectViewRequestCommand.RaiseCanExecuteChanged();
             base.RaiseCanExecuteChanged();
         }
 

@@ -4,6 +4,9 @@
 
 using System.Reflection;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Drastic.Diagnostics.Client;
+using Drastic.Diagnostics.Client.WinUI;
+using Drastic.Diagnostics.Debug.ViewModels;
 using Drastic.Diagnostics.Server.ViewModels;
 using Drastic.Diagnostics.Server.WinUI.Services;
 using Drastic.Diagnostics.Server.WinUI.Tools;
@@ -68,13 +71,13 @@ namespace Drastic.Diagnostics.Server.WinUI
                 .CreateLogger();
 
             this.InitializeComponent();
-            string logLocation = WinUIExtensions.IsRunningAsUwp() ? System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "mauifeed-error.txt") : System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly()!.Location!)!, "mauifeed-error.txt");
             Ioc.Default.ConfigureServices(
              new ServiceCollection()
              .AddSingleton(logBroker)
              .AddLogging(loggingBuilder => loggingBuilder.AddSerilog(serverLogger, dispose: true))
              .AddSingleton<IErrorHandlerService>(new WinUIErrorHandlerService(serverLogger))
              .AddSingleton<IAppDispatcher>(new AppDispatcher(dispatcherQueue))
+             .AddSingleton<IAppClientFactory, WinUIAppClientFactory>()
              .AddSingleton<MainViewModel>()
              .AddTransient<DebugAppClientViewModel>()
              .AddTransient<DebugDiagnosticsClientViewModel>()

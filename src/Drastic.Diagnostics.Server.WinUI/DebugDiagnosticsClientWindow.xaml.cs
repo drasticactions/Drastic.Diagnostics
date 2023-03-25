@@ -3,6 +3,7 @@
 // </copyright>
 
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Drastic.Diagnostics.Debug.ViewModels;
 using Drastic.Diagnostics.Server.ViewModels;
 using WinUIEx;
 

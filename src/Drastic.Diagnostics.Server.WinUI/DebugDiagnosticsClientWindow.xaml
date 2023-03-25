@@ -66,6 +66,7 @@
 
                 <Button Content="Test Request" Command="{x:Bind DebugViewModel.SendTestRequestCommand}"/>
                 <Button Grid.Row="1" Grid.Column="0" Content="Send Device Request" Command="{x:Bind DebugViewModel.AppClientDiscoveryRequestCommand}"/>
+                <Button Grid.Row="2" Grid.Column="0" Content="Test Inspect View Request" Command="{x:Bind DebugViewModel.TestInspectViewRequestCommand}"/>
             </Grid>
         </Grid>
     </Window.Content>

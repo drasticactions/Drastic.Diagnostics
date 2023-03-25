@@ -72,6 +72,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Drastic.Diagnostics.Client.WinUI\Drastic.Diagnostics.Client.WinUI.csproj" />
+	  <ProjectReference Include="..\Drastic.Diagnostics.Debug\Drastic.Diagnostics.Debug.csproj" />
 	  <ProjectReference Include="..\Drastic.Diagnostics.Server\Drastic.Diagnostics.Server.csproj" />
 	  <ProjectReference Include="..\Drastic.Diagnostics\Drastic.Diagnostics.csproj" />
 	</ItemGroup>

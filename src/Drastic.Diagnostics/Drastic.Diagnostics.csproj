@@ -8,6 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<InternalsVisibleTo Include="Drastic.Diagnostics.Client.WinUI" />
 		<InternalsVisibleTo Include="Drastic.Diagnostics.Client" />
 		<InternalsVisibleTo Include="Drastic.Diagnostics.Server" />
 		<PackageReference Include="Drastic.Tempest" Version="0.0.4" />

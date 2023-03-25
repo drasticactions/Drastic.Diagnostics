@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Drastic.Diagnostics.Debug.ViewModels;
 using Drastic.Diagnostics.Server.ViewModels;
 using Microsoft.UI.Xaml;
 using WinUIEx;

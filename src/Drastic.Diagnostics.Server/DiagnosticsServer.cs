@@ -22,6 +22,13 @@ namespace Drastic.Diagnostics.Server
             this.RegisterMessageHandler<ClientRegistrationMessage>(this.OnClientRegistration);
             this.RegisterMessageHandler<DiagnosticsRegistrationMessage>(this.OnDiagnosticsRegistration);
             this.RegisterMessageHandler<AppClientDiscoveryRequestMessage>(this.OnAppClientDiscoveryRequest);
+            this.RegisterMessageHandler<TestInspectViewRequest>(this.OnTestInspectViewRequest);
+        }
+
+        private void OnTestInspectViewRequest(MessageEventArgs<TestInspectViewRequest> args)
+        {
+            // TODO: Maybe handle AppClient here?
+            this.SendToAppClients(args.Message);
         }
 
         private void OnAppClientDiscoveryRequest(MessageEventArgs<AppClientDiscoveryRequestMessage> args)
