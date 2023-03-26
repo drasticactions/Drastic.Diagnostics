@@ -4,6 +4,7 @@
 		<TargetFramework>net7.0-windows10.0.19041.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<WinUIVersion>1.2.221109.1</WinUIVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -12,6 +13,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230217.4" />
+		<PackageDownload GeneratePathProperty="true" Include="Microsoft.WindowsAppSDK" Version="[$(WinUIVersion)]" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Microsoft.WinUI">
+			<HintPath>$(NuGetPackageRoot)\microsoft.windowsappsdk\$(WinUIVersion)\lib\net6.0-windows10.0.18362.0\Microsoft.WinUI.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.InteractiveExperiences.Projection">
+			<HintPath>$(NuGetPackageRoot)\microsoft.windowsappsdk\$(WinUIVersion)\lib\net6.0-windows10.0.18362.0\Microsoft.InteractiveExperiences.Projection.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 </Project>

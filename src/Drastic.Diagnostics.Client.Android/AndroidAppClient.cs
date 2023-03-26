@@ -38,9 +38,9 @@ namespace Drastic.Diagnostics.Client.Android
         }
 
         public override InspectView? GetVisualTree(string hierarchyKind)
-        {
-            throw new NotImplementedException();
-        }
+        => ViewHierarchyHandlerManager.GetView(
+                GetTopActivity()?.Window?.DecorView,
+                hierarchyKind);
 
         /// <summary>
         /// Equivalent of Display.GetRealSize (introduced in API 17), except this version works as far back as
@@ -162,7 +162,7 @@ namespace Drastic.Diagnostics.Client.Android
             return ActivityTracker?.StartedActivities?.LastOrDefault();
         }
 
-        public bool TryGetRepresentedView(object view, bool withSubviews, out IInspectView? representedView)
+        public override bool TryGetRepresentedView(object view, bool withSubviews, out IInspectView? representedView)
         {
             var androidView = view as View;
             if (androidView != null)

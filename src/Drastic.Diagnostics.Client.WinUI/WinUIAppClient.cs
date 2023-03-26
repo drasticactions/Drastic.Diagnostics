@@ -25,7 +25,7 @@ namespace Drastic.Diagnostics.Client.WinUI
         public override InspectView? GetVisualTree(string hierarchyKind)
               => this.ViewHierarchyHandlerManager.GetView(Application.Current, hierarchyKind, true);
 
-        public bool TryGetRepresentedView(object view, bool withSubviews, out IInspectView? representedView)
+        public override bool TryGetRepresentedView(object view, bool withSubviews, out IInspectView? representedView)
         {
             if (view is Application)
             {

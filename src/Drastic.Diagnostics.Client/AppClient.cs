@@ -31,6 +31,8 @@ namespace Drastic.Diagnostics.Client
 
         public abstract InspectView? GetVisualTree(string hierarchyKind);
 
+        public abstract bool TryGetRepresentedView(object view, bool withSubviews, out IInspectView? representedView);
+
         private void AppClient_Connected(object? sender, ClientConnectionEventArgs e)
         {
             // Tell the server our ID.

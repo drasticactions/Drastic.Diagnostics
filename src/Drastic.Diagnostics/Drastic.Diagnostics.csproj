@@ -8,6 +8,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<InternalsVisibleTo Include="Drastic.Diagnostics.Client.iOS" />
+		<InternalsVisibleTo Include="Drastic.Diagnostics.Client.Wpf" />
+		<InternalsVisibleTo Include="Drastic.Diagnostics.Client.Android" />
 		<InternalsVisibleTo Include="Drastic.Diagnostics.Client.WinUI" />
 		<InternalsVisibleTo Include="Drastic.Diagnostics.Client" />
 		<InternalsVisibleTo Include="Drastic.Diagnostics.Server" />

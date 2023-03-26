@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31611.283
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drastic.Diangostics.Client.Sample", "Drastic.Diangostics.Client.Sample.csproj", "{DAD7659B-66D2-4EF0-977A-EA964A01FDF8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drastic.Diagnostics.Client", "..\..\src\Drastic.Diagnostics.Client\Drastic.Diagnostics.Client.csproj", "{877D92E9-CC89-4335-BB9E-8698E9ADCDE5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drastic.Diagnostics", "..\..\src\Drastic.Diagnostics\Drastic.Diagnostics.csproj", "{02A6B0EA-0F10-4AC4-AD6E-75A33C247670}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drastic.Diagnostics.Client.Android", "..\..\src\Drastic.Diagnostics.Client.Android\Drastic.Diagnostics.Client.Android.csproj", "{42461245-F9E3-4E94-8F4C-756CA88D6465}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drastic.Diagnostics.Client.iOS", "..\..\src\Drastic.Diagnostics.Client.iOS\Drastic.Diagnostics.Client.iOS.csproj", "{CDAAFF09-EB51-467F-8A6D-D82A8EF5FA0A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drastic.Diagnostics.Client.WinUI", "..\..\src\Drastic.Diagnostics.Client.WinUI\Drastic.Diagnostics.Client.WinUI.csproj", "{5C1569DB-E09F-4D4D-959B-01D0EB18E539}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DAD7659B-66D2-4EF0-977A-EA964A01FDF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAD7659B-66D2-4EF0-977A-EA964A01FDF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAD7659B-66D2-4EF0-977A-EA964A01FDF8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{DAD7659B-66D2-4EF0-977A-EA964A01FDF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAD7659B-66D2-4EF0-977A-EA964A01FDF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAD7659B-66D2-4EF0-977A-EA964A01FDF8}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{877D92E9-CC89-4335-BB9E-8698E9ADCDE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{877D92E9-CC89-4335-BB9E-8698E9ADCDE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{877D92E9-CC89-4335-BB9E-8698E9ADCDE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{877D92E9-CC89-4335-BB9E-8698E9ADCDE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02A6B0EA-0F10-4AC4-AD6E-75A33C247670}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02A6B0EA-0F10-4AC4-AD6E-75A33C247670}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02A6B0EA-0F10-4AC4-AD6E-75A33C247670}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02A6B0EA-0F10-4AC4-AD6E-75A33C247670}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42461245-F9E3-4E94-8F4C-756CA88D6465}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42461245-F9E3-4E94-8F4C-756CA88D6465}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42461245-F9E3-4E94-8F4C-756CA88D6465}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42461245-F9E3-4E94-8F4C-756CA88D6465}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDAAFF09-EB51-467F-8A6D-D82A8EF5FA0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDAAFF09-EB51-467F-8A6D-D82A8EF5FA0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDAAFF09-EB51-467F-8A6D-D82A8EF5FA0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDAAFF09-EB51-467F-8A6D-D82A8EF5FA0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C1569DB-E09F-4D4D-959B-01D0EB18E539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C1569DB-E09F-4D4D-959B-01D0EB18E539}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C1569DB-E09F-4D4D-959B-01D0EB18E539}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C1569DB-E09F-4D4D-959B-01D0EB18E539}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
+	EndGlobalSection
+EndGlobal
