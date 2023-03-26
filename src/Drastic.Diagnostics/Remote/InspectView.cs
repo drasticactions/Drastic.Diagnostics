@@ -72,6 +72,8 @@ namespace Drastic.Diagnostics.Remote
 
         public byte[] CapturedImage { get; set; } = new byte[0];
 
+        public ViewVisibility Visibility { get; set; }
+
         /// <summary>
         /// For multi-window frameworks, like Mac and WPF, the InspectView returned given a handle of
         /// IntPtr.Zero is a "fake" root whose Subviews are the windows of the app. The convention is
@@ -156,6 +158,7 @@ namespace Drastic.Diagnostics.Remote
             writer.WriteString(this.DisplayName);
             writer.WriteString(this.Description);
             writer.WriteInt16((short)this.Kind);
+            writer.WriteInt16((short)this.Visibility);
             writer.Write(context, this.Transform);
             writer.WriteBytes(this.CapturedImage);
         }
@@ -173,6 +176,7 @@ namespace Drastic.Diagnostics.Remote
             this.DisplayName = reader.ReadString();
             this.Description = reader.ReadString();
             this.Kind = (ViewKind)reader.ReadInt16();
+            this.Visibility = (ViewVisibility)reader.ReadInt16();
             this.Transform = reader.Read<ViewTransform>(context);
             this.CapturedImage = reader.ReadBytes();
         }

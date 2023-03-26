@@ -10,6 +10,7 @@ using Drastic.Tempest;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using System.Reflection;
 
 namespace Drastic.Diagnostics.Client.WinUI
 {
@@ -29,7 +30,7 @@ namespace Drastic.Diagnostics.Client.WinUI
             if (view is Application)
             {
                 // Windows.ApplicationModel.Package.Current.DisplayName
-                representedView = new WinUIRootInspectView { DisplayName = "WinUI App" };
+                representedView = new WinUIRootInspectView { DisplayName = Assembly.GetEntryAssembly()?.GetName()?.Name ?? string.Empty };
                 return true;
             }
 
