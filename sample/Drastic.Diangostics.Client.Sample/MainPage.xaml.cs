@@ -23,7 +23,7 @@ public partial class MainPage : ContentPage
         string manager = string.Empty;
 
 #if IOS || MACCATALYST
-        manager = "iOS";
+        manager = "UIKit";
 #elif ANDROID
         manager = "Android";
 #elif WINDOWS

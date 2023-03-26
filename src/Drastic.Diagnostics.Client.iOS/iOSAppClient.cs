@@ -28,6 +28,7 @@ namespace Drastic.Diagnostics.Client.iOS
             if (view is UIApplication app)
             {
                 representedView = new iOSRootInspectView(app, withSubviews);
+                return true;
             }
 
             var uiview = view as UIView;
